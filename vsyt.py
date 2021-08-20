@@ -42,7 +42,6 @@ async def main():
                     await mdch(websocket,"dfa26101c6b5471fb3694be05cb1ad97")
                 elif "!human" == f"{c.message}":
                     await mdch(websocket,"ab930f0b623946abbe7db51fefcea118")
-                    mdmv(websocket,0.2,false,0.1,-0.7,130,-22.5)
-                await getmd(websocket)
-            time.sleep(0.1)
+            #await getmd(websocket)
+            time.sleep(0.5)
 asyncio.get_event_loop().run_until_complete(main())

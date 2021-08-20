@@ -1,7 +1,7 @@
 import json
 
 dev = "emlo40"
-reqid = "Owo"
+reqid = "oof"
 name = "a nock off of a cool program"
 v = "1.0"
 
@@ -14,15 +14,15 @@ async def detect_do(word,action,x,chat):
 
 async def token(websocket):
     payload = {
-        "apiName": "VTubeStudioPublicAPI",
-        "apiVersion": v,
-        "requestID": reqid,
-        "messageType": "AuthenticationTokenRequest",
-        "data": {
-            "pluginName": name,
-            "pluginDeveloper": dev,
+            "apiName": "VTubeStudioPublicAPI",
+            "apiVersion": v,
+            "requestID": reqid,
+            "messageType": "AuthenticationTokenRequest",
+            "data": {
+                "pluginName": name,
+                "pluginDeveloper": dev,
+            }
         }
-    }
     await websocket.send(json.dumps(payload))
     json_data = await websocket.recv()
     pack = json.loads(json_data)
@@ -49,11 +49,11 @@ async def authen(websocket,authtoken):
     
 async def getmd(websocket):
     payload = {
-                "apiName": "VTubeStudioPublicAPI",
-                "apiVersion": v,
-                "requestID": reqid,
-                "messageType": "CurrentModelRequest"
-            }
+            "apiName": "VTubeStudioPublicAPI",
+            "apiVersion": v,
+            "requestID": reqid,
+            "messageType": "CurrentModelRequest"
+        }
     await websocket.send(json.dumps(payload))
     json_data = await websocket.recv()
     pack = json.loads(json_data)
@@ -62,54 +62,61 @@ async def getmd(websocket):
 
 async def getvtsfolder(websocket):
     payload = {
-                "apiName": "VTubeStudioPublicAPI",
-                "apiVersion": v,
-                "requestID": reqid,
-                "messageType": "VTSFolderInfoRequest"
-            }
+            "apiName": "VTubeStudioPublicAPI",
+            "apiVersion": v,
+            "requestID": reqid,
+            "messageType": "VTSFolderInfoRequest"
+        }
     await websocket.send(json.dumps(payload))
     json_data = await websocket.recv()
     pack = json.loads(json_data)
     authres = pack['data']
     print(authres)
+    return authres
 
 async def getstate(websocket):
     payload = {
-                "apiName": "VTubeStudioPublicAPI",
-                "apiVersion": v,
-                "requestID": reqid,
-                "messageType": "APIStateRequest",
-            }
+            "apiName": "VTubeStudioPublicAPI",
+            "apiVersion": v,
+            "requestID": reqid,
+            "messageType": "APIStateRequest",
+        }
     await websocket.send(json.dumps(payload))
     json_data = await websocket.recv()
     pack = json.loads(json_data)
     authres = pack['data']
     print(authres)
+    return authres
 
 async def listvtsmodel(websocket):
     payload = {
-                "apiName": "VTubeStudioPublicAPI",
-                "apiVersion": v,
-                "requestID": reqid,
-                "messageType": "AvailableModelsRequest"
-            }
+            "apiName": "VTubeStudioPublicAPI",
+            "apiVersion": v,
+            "requestID": reqid,
+            "messageType": "AvailableModelsRequest"
+        }
     await websocket.send(json.dumps(payload))
     json_data = await websocket.recv()
     pack = json.loads(json_data)
     authres = pack['data']
     print(authres)
+    return authres
 
 async def mdch(websocket,mdid):
     payload = {
-        "apiName": "VTubeStudioPublicAPI",
-        "apiVersion": v,
-        "requestID": reqid,
-        "messageType": "ModelLoadRequest",
-        "data": {
-            "modelID": mdid
-            }
+            "apiName": "VTubeStudioPublicAPI",
+            "apiVersion": v,
+            "requestID": reqid,
+            "messageType": "ModelLoadRequest",
+            "data": {
+                "modelID": mdid
+                }
         }
     await websocket.send(json.dumps(payload))
+    json_data = await websocket.recv()
+    pack = json.loads(json_data)
+    authres = pack['data']
+    return authres
 
 async def mdmv(websocket,time,revelance,xp,yp,rot,size):
     payload = {
@@ -127,6 +134,10 @@ async def mdmv(websocket,time,revelance,xp,yp,rot,size):
             }
         }
     await websocket.send(json.dumps(payload))
+    json_data = await websocket.recv()
+    pack = json.loads(json_data)
+    authres = pack['data']
+    return authres
 
 async def listArtM(websocket,mdid):
     payload = {
@@ -139,7 +150,7 @@ async def listArtM(websocket,mdid):
     json_data = await websocket.recv()
     pack = json.loads(json_data)
     authres = pack['data']
-    print(authres)
+    return authres
 
 async def TintArtM(websocket,r,g,b,a,tintall,num,exactarray,conarray,tagexactarray,tagconarray):
     payload = {
@@ -168,4 +179,4 @@ async def TintArtM(websocket,r,g,b,a,tintall,num,exactarray,conarray,tagexactarr
     json_data = await websocket.recv()
     pack = json.loads(json_data)
     authres = pack['data']
-    print(authres)
+    return authres
