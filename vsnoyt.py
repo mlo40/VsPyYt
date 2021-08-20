@@ -4,7 +4,6 @@ import websockets
 import time
 
 import os
-import pickle
 
 import funcv2
 from funcv2 import *
