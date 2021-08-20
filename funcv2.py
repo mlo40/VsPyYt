@@ -127,3 +127,45 @@ async def mdmv(websocket,time,revelance,xp,yp,rot,size):
             }
         }
     await websocket.send(json.dumps(payload))
+
+async def listArtM(websocket,mdid):
+    payload = {
+            "apiName": "VTubeStudioPublicAPI",
+            "apiVersion": "1.0",
+            "requestID": "SomeID",
+            "messageType": "ArtMeshListRequest"
+        }
+    await websocket.send(json.dumps(payload))
+    json_data = await websocket.recv()
+    pack = json.loads(json_data)
+    authres = pack['data']
+    print(authres)
+
+async def TintArtM(websocket,r,g,b,a,tintall,num,exactarray,conarray,tagexactarray,tagconarray):
+    payload = {
+            "apiName": "VTubeStudioPublicAPI",
+            "apiVersion": v,
+            "requestID": reqid,
+            "messageType": "ColorTintRequest",
+            "data": {
+                "colorTint": {
+                    "colorR": r,
+                    "colorG": g,
+                    "colorB": b,
+                    "colorA": a
+                },
+                "artMeshMatcher": {
+                    "tintAll": tintall,
+                    "artMeshNumber": num,
+                    "nameExact": exactarray,
+                    "nameContains": conarray,
+                    "tagExact": tagexactarray,
+                    "tagContains": tagconarray
+                }
+            }
+        }
+    await websocket.send(json.dumps(payload))
+    json_data = await websocket.recv()
+    pack = json.loads(json_data)
+    authres = pack['data']
+    print(authres)
