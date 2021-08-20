@@ -60,6 +60,19 @@ async def getmd(websocket):
     authres = pack['data']
     print(authres)
 
+async def getvtsfolder(websocket):
+    payload = {
+                "apiName": "VTubeStudioPublicAPI",
+                "apiVersion": v,
+                "requestID": reqid,
+                "messageType": "VTSFolderInfoRequest"
+            }
+    await websocket.send(json.dumps(payload))
+    json_data = await websocket.recv()
+    pack = json.loads(json_data)
+    authres = pack['data']
+    print(authres)
+
 async def getstate(websocket):
     payload = {
                 "apiName": "VTubeStudioPublicAPI",
@@ -72,7 +85,20 @@ async def getstate(websocket):
     pack = json.loads(json_data)
     authres = pack['data']
     print(authres)
-    
+
+async def listvtsmodel(websocket):
+    payload = {
+                "apiName": "VTubeStudioPublicAPI",
+                "apiVersion": v,
+                "requestID": reqid,
+                "messageType": "AvailableModelsRequest"
+            }
+    await websocket.send(json.dumps(payload))
+    json_data = await websocket.recv()
+    pack = json.loads(json_data)
+    authres = pack['data']
+    print(authres)
+
 async def mdch(websocket,mdid):
     payload = {
         "apiName": "VTubeStudioPublicAPI",
@@ -81,6 +107,23 @@ async def mdch(websocket,mdid):
         "messageType": "ModelLoadRequest",
         "data": {
             "modelID": mdid
+            }
+        }
+    await websocket.send(json.dumps(payload))
+
+async def mdmv(websocket,time,revelance,xp,yp,rot,size):
+    payload = {
+            "apiName": "VTubeStudioPublicAPI",
+            "apiVersion": v,
+            "requestID": reqid,
+            "messageType": "MoveModelRequest",
+            "data": {
+                "timeInSeconds": time,
+                "valuesAreRelativeToModel": revelance,
+                "positionX": xp,
+                "positionY": yp,
+                "rotation": rot,
+                "size": size
             }
         }
     await websocket.send(json.dumps(payload))

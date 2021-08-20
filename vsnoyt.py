@@ -1,7 +1,6 @@
 import asyncio
 import websockets
 
-import threading
 import time
 
 import os
@@ -11,9 +10,6 @@ import funcv2
 from funcv2 import *
 
 from json import *
-
-import pytchat
-from pytchat import *
 
 async def main():
     uri = "ws://127.0.0.1:8001"
@@ -34,15 +30,7 @@ async def main():
                 json_file.write(json.dumps(jsonfilecon))
                 #json.dump(authtoken, json_file)
         await authen(websocket,authtoken)
-        chat = LiveChat(video_id=streamid)
         while True:
-            for c in chat.get().sync_items():
-                print(f"{c.message}")
-                if "!cat" == f"{c.message}":
-                    await mdch(websocket,"dfa26101c6b5471fb3694be05cb1ad97")
-                elif "!human" == f"{c.message}":
-                    await mdch(websocket,"ab930f0b623946abbe7db51fefcea118")
-                    mdmv(websocket,0.2,false,0.1,-0.7,130,-22.5)
-                await getmd(websocket)
+            await mdmv(websocket,0.2,False,0.1,0.1,300,-22.5)
             time.sleep(0.1)
 asyncio.get_event_loop().run_until_complete(main())
