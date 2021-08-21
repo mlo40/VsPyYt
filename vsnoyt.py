@@ -31,6 +31,6 @@ async def main():
         await authen(websocket,authtoken)
         while True:
             await mdmv(websocket,0.2,False,0.1,0.1,300,-22.5)
-            await listArtM(websocket,255,150,0,255,True,"","","","","")
+            await TintArtM(websocket,255,150,0,255,True,"","","","","")
             time.sleep(0.1)
 asyncio.get_event_loop().run_until_complete(main())
