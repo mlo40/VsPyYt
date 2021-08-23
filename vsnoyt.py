@@ -5,8 +5,8 @@ import time
 
 import os
 
-import funcv2
-from funcv2 import *
+import func
+from func import *
 
 from json import *
 
