@@ -72,12 +72,24 @@ async def getvtsfolder(websocket):
     authres = pack['data']
     return pack
 
-async def getstate(websocket):
+async def getapi(websocket):
     payload = {
             "apiName": "VTubeStudioPublicAPI",
             "apiVersion": v,
             "requestID": reqid,
             "messageType": "APIStateRequest",
+        }
+    await websocket.send(json.dumps(payload))
+    json_data = await websocket.recv()
+    pack = json.loads(json_data)
+    return pack
+
+async def getstate(websocket):
+    payload = {
+            "apiName": "VTubeStudioPublicAPI",
+            "apiVersion": v,
+            "requestID": reqid,
+            "messageType": "StatisticsRequest"
         }
     await websocket.send(json.dumps(payload))
     json_data = await websocket.recv()
