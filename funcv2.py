@@ -57,8 +57,7 @@ async def getmd(websocket):
     await websocket.send(json.dumps(payload))
     json_data = await websocket.recv()
     pack = json.loads(json_data)
-    authres = pack['data']
-    print(authres)
+    return pack
 
 async def getvtsfolder(websocket):
     payload = {
@@ -71,8 +70,7 @@ async def getvtsfolder(websocket):
     json_data = await websocket.recv()
     pack = json.loads(json_data)
     authres = pack['data']
-    print(authres)
-    return authres
+    return pack
 
 async def getstate(websocket):
     payload = {
@@ -84,9 +82,7 @@ async def getstate(websocket):
     await websocket.send(json.dumps(payload))
     json_data = await websocket.recv()
     pack = json.loads(json_data)
-    authres = pack['data']
-    print(authres)
-    return authres
+    return pack
 
 async def listvtsmodel(websocket):
     payload = {
@@ -98,9 +94,7 @@ async def listvtsmodel(websocket):
     await websocket.send(json.dumps(payload))
     json_data = await websocket.recv()
     pack = json.loads(json_data)
-    authres = pack['data']
-    print(authres)
-    return authres
+    return pack
 
 async def mdch(websocket,mdid):
     payload = {
@@ -115,8 +109,7 @@ async def mdch(websocket,mdid):
     await websocket.send(json.dumps(payload))
     json_data = await websocket.recv()
     pack = json.loads(json_data)
-    authres = pack['data']
-    return authres
+    return pack
 
 async def mdmv(websocket,time,revelance,xp,yp,rot,size):
     payload = {
@@ -136,8 +129,7 @@ async def mdmv(websocket,time,revelance,xp,yp,rot,size):
     await websocket.send(json.dumps(payload))
     json_data = await websocket.recv()
     pack = json.loads(json_data)
-    authres = pack['data']
-    return authres
+    return pack
 
 async def listArtM(websocket,mdid):
     payload = {
@@ -149,8 +141,7 @@ async def listArtM(websocket,mdid):
     await websocket.send(json.dumps(payload))
     json_data = await websocket.recv()
     pack = json.loads(json_data)
-    authres = pack['data']
-    return authres
+    return pack
 
 async def TintArtM(websocket,r,g,b,a,tintall,num,exactarray,conarray,tagexactarray,tagconarray):
     payload = {
@@ -178,5 +169,4 @@ async def TintArtM(websocket,r,g,b,a,tintall,num,exactarray,conarray,tagexactarr
     await websocket.send(json.dumps(payload))
     json_data = await websocket.recv()
     pack = json.loads(json_data)
-    authres = pack['data']
-    return authres
+    return pack
