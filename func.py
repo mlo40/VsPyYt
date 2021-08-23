@@ -3,9 +3,9 @@ import time
 ######################################
 #          plugin settings           #
 ######################################
-dev = "emlo40"
-reqid = "oof"
-name = "a nock off of a cool program"
+dev = "test"
+reqid = "test"
+name = "test"
 v = "1.0"
 ######################################
 #             functions              #

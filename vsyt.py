@@ -52,6 +52,7 @@ async def main():
                             "authenticationkey": authtoken,
                             "data":{
                                 "!spin": "spin(websocket,x,y,s)",
+                                "!reset": "mdmv(websocket,0.2,False,0,0,0,-76)",
                                 "!rainbow": "rainbow(websocket)"}
                         }
                 json_file.write(json.dumps(jsonfilecon))
