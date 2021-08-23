@@ -4,6 +4,8 @@ vsnoyt.py is the program without youtube chat reading, for testing functions.
 
 wiki for how to use functions [page](https://github.com/mlo40/VsPyYt/wiki)
 
+For people who dont want to code i will be making a auto setup version in exe form it will be in [releases](https://github.com/mlo40/VsPyYt/releases)
+
 Setup
 1. install python [Download](https://www.python.org/ftp/python/3.9.6/python-3.9.6-amd64.exe)
 2. open cmd in the directoery where vsyt.py is and write<br/> `pip install -r requirements.txt`
