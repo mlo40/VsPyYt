@@ -57,11 +57,7 @@ async def main():
                         }
                 json_file.write(json.dumps(jsonfilecon))
                 json_file.close()
-        #############################
-        #        saving code ends   #
-        #############################
         await authen(websocket,authtoken)
-        
         mdls = await listvtsmodel(websocket)
         runs = mdls["data"]["numberOfModels"]
         data = json.load(open('token.json'))
@@ -82,6 +78,9 @@ async def main():
                 json_file = open('token.json', "w")
                 json_file.write(json.dumps(data))
                 json_file.close()
+        #############################
+        #        saving code ends   #
+        #############################
         for key in data["data"]:
             print(key)
         print("type your streamid and press enter")
@@ -96,10 +95,8 @@ async def main():
             data = json.load(json_file)
             for c in chat.get().sync_items():
                 print(f"{c.message}")
-                if f"{c.message}" == "exit":
-                    quit()
+                time.sleep(0.1)
                 for key in data["data"]:
-                    #print(key)
                     if f"{c.message}" == key:
                         cm = data["data"][key]
                         await eval(cm)
