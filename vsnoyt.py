@@ -9,29 +9,91 @@ import func
 from func import *
 
 from json import *
+if os.path.exists('custom.py'):
+    import customfunc
+    from customfunc import *
 
 async def main():
     uri = "ws://127.0.0.1:8001"
     async with websockets.connect(uri) as websocket:
-        if os.path.exists('token.json'):
-            print('Loading authtoken From File...')
-            with open('token.json') as json_file:
+        #################################
+        #        saving code starts     #
+        #################################
+        if os.path.exists('tokenn.json'):
+            data = json.load(open('tokenn.json'))
+            if data['authenticationkey'] == "":
+                print('Fetching New Tokens...')
+                authtoken = await token(websocket)
+                print(authtoken)
+                print('Saving authtoken for Future Use...')
+                json_file = open('tokenn.json', "r")
                 data = json.load(json_file)
-                streamid = (data[0]['streamid'])
-                authtoken = (data[1]['authenticationkey'])
+                data["authenticationkey"] = authtoken
+                json_file.close()
+                json_file = open('tokenn.json', "w")
+                json_file.write(json.dumps(data))
+                json_file.close()
+            else:
+                print('Loading authtoken From File...')
+                with open('tokenn.json') as json_file:
+                    data = json.load(json_file)
+                    authtoken = (data['authenticationkey'])
+                    json_file.close()
         else:
             print('Fetching New Tokens...')
             authtoken = await token(websocket)
             print(authtoken)
             print('Saving authtoken for Future Use...')
-            with open('token.json', "w") as json_file:
-                jsonfilecon = [{"authenticationkey": authtoken}]
+            with open('tokenn.json', "w") as json_file:
+                jsonfilecon = {
+                            "authenticationkey": authtoken,
+                            "data":{
+                                "!spin": "spin(websocket,x,y,s)",
+                                "!reset": "mdmv(websocket,0.2,False,0,0,0,-76)",
+                                "!rainbow": "rainbow(websocket)"}
+                        }
                 json_file.write(json.dumps(jsonfilecon))
-                #json.dump(authtoken, json_file)
+                json_file.close()
+        #############################
+        #        saving code ends   #
+        #############################
         await authen(websocket,authtoken)
+        
+        mdls = await listvtsmodel(websocket)
+        runs = mdls["data"]["numberOfModels"]
+        data = json.load(open('tokenn.json'))
+        i=0
+        for key in data["data"]:
+            print(key)
+            i+=1
+        nmumm = runs - i
+        if i < nmumm:
+            for i in range(runs):
+                ff = mdls["data"]["availableModels"][i]["modelName"]
+                gg = mdls["data"]["availableModels"][i]["modelID"]
+                json_file.close()
+                name = "!"+ff
+                
+                mdss = mdch.__name__+"("+"websocket"+",'"+str(gg)+"')"
+                data["data"][name] = mdss
+                json_file.close()
+                json_file = open('tokenn.json', "w")
+                json_file.write(json.dumps(data))
+                json_file.close()
         while True:
-            ###########
-            #code here#
-            ###########
+            mdinf = await getmd(websocket)
+            s = mdinf["data"]["modelPosition"]["size"]
+            x = mdinf["data"]["modelPosition"]["positionX"]
+            y = mdinf["data"]["modelPosition"]["positionY"]
+            word = input("enter command ")
+            json_file = open('tokenn.json')
+            data = json.load(json_file)
+            if word == "exit":
+                    quit()
+            for key in data["data"]:
+                #print(key)
+                if word == key:
+                    cm = data["data"][key]
+                    await eval(cm)
             time.sleep(0.1)
 asyncio.get_event_loop().run_until_complete(main())
