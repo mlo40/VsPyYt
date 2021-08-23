@@ -1,17 +1,15 @@
 import json
 
+######################################
+#          plugin settings           #
+######################################
 dev = "emlo40"
 reqid = "oof"
 name = "a nock off of a cool program"
 v = "1.0"
-
 ######################################
-#            custom msg              #
+#             functions              #
 ######################################
-async def detect_do(word,action,x,chat):
-    if chat == word:
-        action(x)
-
 async def token(websocket):
     payload = {
             "apiName": "VTubeStudioPublicAPI",
@@ -84,7 +82,7 @@ async def getapi(websocket):
     pack = json.loads(json_data)
     return pack
 
-async def getstate(websocket):
+async def getstat(websocket):
     payload = {
             "apiName": "VTubeStudioPublicAPI",
             "apiVersion": v,
