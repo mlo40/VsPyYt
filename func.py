@@ -1,5 +1,5 @@
 import json
-
+import time
 ######################################
 #          plugin settings           #
 ######################################
@@ -141,6 +141,16 @@ async def mdmv(websocket,time,revelance,xp,yp,rot,size):
     pack = json.loads(json_data)
     return pack
 
+async def spin(websocket,x,y,s):
+    await mdmv(websocket,0.2,False,x,y,90,s)
+    time.sleep(0.1)
+    await mdmv(websocket,0.2,False,x,y,180,s)
+    time.sleep(0.1)
+    await mdmv(websocket,0.2,False,x,y,270,s)
+    time.sleep(0.1)
+    await mdmv(websocket,0.2,False,x,y,360,s)
+    time.sleep(0.1)
+
 async def listArtM(websocket,mdid):
     payload = {
             "apiName": "VTubeStudioPublicAPI",
@@ -180,3 +190,20 @@ async def TintArtM(websocket,r,g,b,a,tintall,num,exactarray,conarray,tagexactarr
     json_data = await websocket.recv()
     pack = json.loads(json_data)
     return pack
+
+async def rainbow(websocket):
+    await TintArtM(websocket,255,0,0,255,True,"","","","","")
+    time.sleep(0.2)
+    await TintArtM(websocket,255,127,0,255,True,"","","","","")
+    time.sleep(0.2)
+    await TintArtM(websocket,255,255,0,255,True,"","","","","")
+    time.sleep(0.2)
+    await TintArtM(websocket,0,255,0,255,True,"","","","","")
+    time.sleep(0.2)
+    await TintArtM(websocket,0,0,255,255,True,"","","","","")
+    time.sleep(0.2)
+    await TintArtM(websocket,46,43,95,255,True,"","","","","")
+    time.sleep(0.2)
+    await TintArtM(websocket,139,0,255,255,True,"","","","","")
+    time.sleep(0.2)
+    await TintArtM(websocket,255,255,255,255,True,"","","","","")
