@@ -16,6 +16,7 @@ from pytchat import *
 if os.path.exists('custom.py'):
     import customfunc
     from customfunc import *
+
 async def main():
     uri = "ws://127.0.0.1:8001"
     async with websockets.connect(uri) as websocket:
@@ -23,25 +24,25 @@ async def main():
         #        saving code starts     #
         #################################
         if os.path.exists('token.json'):
-            data = json.load(open('token.json'))
-            if data['authenticationkey'] == "":
+            print('Loading authtoken From File...')
+            json_file = open('token.json', "r")
+            data = json.load(json_file)
+            authtoken = (data['authenticationkey'])
+            confirm = await authen(websocket,authtoken)
+            if authtoken == "" or confirm["data"]["authenticated"] == False:
+                print('Error Token Invalid')
                 print('Fetching New Tokens...')
                 authtoken = await token(websocket)
                 print(authtoken)
                 print('Saving authtoken for Future Use...')
-                json_file = open('token.json', "r")
-                data = json.load(json_file)
                 data["authenticationkey"] = authtoken
                 json_file.close()
                 json_file = open('token.json', "w")
                 json_file.write(json.dumps(data))
                 json_file.close()
+                print("Saving finished")
             else:
-                print('Loading authtoken From File...')
-                with open('token.json') as json_file:
-                    data = json.load(json_file)
-                    authtoken = (data['authenticationkey'])
-                    json_file.close()
+                json_file.close()
         else:
             print('Fetching New Tokens...')
             authtoken = await token(websocket)
@@ -57,7 +58,13 @@ async def main():
                         }
                 json_file.write(json.dumps(jsonfilecon))
                 json_file.close()
-        await authen(websocket,authtoken)
+            await authen(websocket,authtoken)
+        ###############################
+        #      saving code ends       #
+        ###############################
+        ###############################
+        #   command auto generation   #
+        ###############################
         mdls = await listvtsmodel(websocket)
         runs = mdls["data"]["numberOfModels"]
         data = json.load(open('token.json'))
@@ -69,29 +76,25 @@ async def main():
             for i in range(runs):
                 ff = mdls["data"]["availableModels"][i]["modelName"]
                 gg = mdls["data"]["availableModels"][i]["modelID"]
-                json_file.close()
                 name = "!"+ff
-                
                 mdss = mdch.__name__+"("+"websocket"+",'"+str(gg)+"')"
                 data["data"][name] = mdss
                 json_file.close()
                 json_file = open('token.json', "w")
                 json_file.write(json.dumps(data))
                 json_file.close()
-        #############################
-        #        saving code ends   #
-        #############################
+        ###############################
+        # command auto generation end #
+        ###############################
+        print("Successfully Loaded")
+        print("Detected Commands")
         for key in data["data"]:
             print(key)
         print("type your streamid and press enter")
         streamid = input()
         chat = LiveChat(video_id=streamid)
         while True:
-            while True:
-                mdinf = await getmd(websocket)
-                s = mdinf["data"]["modelPosition"]["size"]
-                x = mdinf["data"]["modelPosition"]["positionX"]
-                y = mdinf["data"]["modelPosition"]["positionY"]
+            while chat.is_alive():
                 json_file = open('token.json')
                 data = json.load(json_file)#NvtM3FneV7Q
                 items = data.items
@@ -99,9 +102,14 @@ async def main():
                     print(f"{c.datetime} [{c.author.name}]- {c.message}")
                     for key in data["data"]:
                         if f"{c.message}" == key:
+                            mdinf = await getmd(websocket)
+                            s = mdinf["data"]["modelPosition"]["size"]
+                            r = mdinf["data"]["modelPosition"]["rotation"]
+                            x = mdinf["data"]["modelPosition"]["positionX"]
+                            y = mdinf["data"]["modelPosition"]["positionY"]
                             cm = data["data"][key]
                             await eval(cm)
-                    time.sleep(0.5)
+                time.sleep(0.5)
             time.sleep(0.1)
 asyncio.get_event_loop().run_until_complete(main())
 asyncio.get_event_loop().run_forever()

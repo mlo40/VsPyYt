@@ -42,8 +42,7 @@ async def authen(websocket,authtoken):
     await websocket.send(json.dumps(payload))
     json_data = await websocket.recv()
     pack = json.loads(json_data)
-    authres = pack['data']
-    print(authres)
+    return pack
     
 async def getmd(websocket):
     payload = {

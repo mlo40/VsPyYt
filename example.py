@@ -20,25 +20,25 @@ async def main():
         #        saving code starts     #
         #################################
         if os.path.exists('tokenn.json'):
-            data = json.load(open('tokenn.json'))
-            if data['authenticationkey'] == "":
+            print('Loading authtoken From File...')
+            json_file = open('tokenn.json', "r")
+            data = json.load(json_file)
+            authtoken = (data['authenticationkey'])
+            confirm = await authen(websocket,authtoken)
+            if authtoken == "" or confirm["data"]["authenticated"] == False:
+                print('Error Token Invalid')
                 print('Fetching New Tokens...')
                 authtoken = await token(websocket)
                 print(authtoken)
                 print('Saving authtoken for Future Use...')
-                json_file = open('tokenn.json', "r")
-                data = json.load(json_file)
                 data["authenticationkey"] = authtoken
                 json_file.close()
                 json_file = open('tokenn.json', "w")
                 json_file.write(json.dumps(data))
                 json_file.close()
+                print("Saving finished")
             else:
-                print('Loading authtoken From File...')
-                with open('tokenn.json') as json_file:
-                    data = json.load(json_file)
-                    authtoken = (data['authenticationkey'])
-                    json_file.close()
+                json_file.close()
         else:
             print('Fetching New Tokens...')
             authtoken = await token(websocket)
@@ -48,10 +48,11 @@ async def main():
                 jsonfilecon = {"authenticationkey": authtoken}
                 json_file.write(json.dumps(jsonfilecon))
                 json_file.close()
+            await authen(websocket,authtoken)
         #############################
         #        saving code ends   #
         #############################
-        await authen(websocket,authtoken)
+        print("Successfully Loaded")
         while True:
             #code here
             time.sleep(0.1)
