@@ -43,7 +43,7 @@ async def authen(websocket,authtoken):
     json_data = await websocket.recv()
     pack = json.loads(json_data)
     return pack
-    
+
 async def getmd(websocket):
     payload = {
             "apiName": "VTubeStudioPublicAPI",
@@ -56,17 +56,16 @@ async def getmd(websocket):
     pack = json.loads(json_data)
     return pack
 
-async def getvtsfolder(websocket):
+async def listvtsmodel(websocket):
     payload = {
             "apiName": "VTubeStudioPublicAPI",
             "apiVersion": v,
             "requestID": reqid,
-            "messageType": "VTSFolderInfoRequest"
+            "messageType": "AvailableModelsRequest"
         }
     await websocket.send(json.dumps(payload))
     json_data = await websocket.recv()
     pack = json.loads(json_data)
-    authres = pack['data']
     return pack
 
 async def getapi(websocket):
@@ -93,16 +92,17 @@ async def getstat(websocket):
     pack = json.loads(json_data)
     return pack
 
-async def listvtsmodel(websocket):
+async def getvtsfolder(websocket):
     payload = {
             "apiName": "VTubeStudioPublicAPI",
             "apiVersion": v,
             "requestID": reqid,
-            "messageType": "AvailableModelsRequest"
+            "messageType": "VTSFolderInfoRequest"
         }
     await websocket.send(json.dumps(payload))
     json_data = await websocket.recv()
     pack = json.loads(json_data)
+    authres = pack['data']
     return pack
 
 async def mdch(websocket,mdid):
@@ -139,16 +139,6 @@ async def mdmv(websocket,time,revelance,xp,yp,rot,size):
     json_data = await websocket.recv()
     pack = json.loads(json_data)
     return pack
-
-async def spin(websocket,x,y,s):
-    await mdmv(websocket,0.2,False,x,y,90,s)
-    time.sleep(0.1)
-    await mdmv(websocket,0.2,False,x,y,180,s)
-    time.sleep(0.1)
-    await mdmv(websocket,0.2,False,x,y,270,s)
-    time.sleep(0.1)
-    await mdmv(websocket,0.2,False,x,y,360,s)
-    time.sleep(0.1)
 
 async def listArtM(websocket,mdid):
     payload = {
@@ -189,6 +179,16 @@ async def TintArtM(websocket,r,g,b,a,tintall,num,exactarray,conarray,tagexactarr
     json_data = await websocket.recv()
     pack = json.loads(json_data)
     return pack
+
+async def spin(websocket,x,y,s):
+    await mdmv(websocket,0.2,False,x,y,90,s)
+    time.sleep(0.1)
+    await mdmv(websocket,0.2,False,x,y,180,s)
+    time.sleep(0.1)
+    await mdmv(websocket,0.2,False,x,y,270,s)
+    time.sleep(0.1)
+    await mdmv(websocket,0.2,False,x,y,360,s)
+    time.sleep(0.1)
 
 async def rainbow(websocket):
     await TintArtM(websocket,255,0,0,255,True,"","","","","")
