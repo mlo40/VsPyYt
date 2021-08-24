@@ -1,4 +1,4 @@
-### VsPyYt is more of a framework rather a program.
+### VsPyYt is more of a framework rather then a program.
 vsyt.py is the main program that interacts with youtube chat.<br/>
 vsnoyt.py is a example file, for testing functions or building your own app using python.
 
