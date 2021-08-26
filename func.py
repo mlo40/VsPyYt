@@ -1,3 +1,4 @@
+from os import system, name
 import json
 import time
 ######################################
@@ -10,6 +11,15 @@ v = "1.0"
 ######################################
 #             functions              #
 ######################################
+def clear():
+  
+    # for windows
+    if name == 'nt':
+        _ = system('cls')
+  
+    # for mac and linux(here, os.name is 'posix')
+    else:
+        _ = system('clear')
 async def token(websocket):
     payload = {
             "apiName": "VTubeStudioPublicAPI",
@@ -38,6 +48,18 @@ async def authen(websocket,authtoken):
                 "pluginDeveloper": dev,
                 "authenticationToken": authtoken
             }
+        }
+    await websocket.send(json.dumps(payload))
+    json_data = await websocket.recv()
+    pack = json.loads(json_data)
+    return pack
+
+async def gettrackparam(websocket):
+    payload = {
+            "apiName": "VTubeStudioPublicAPI",
+            "apiVersion": v,
+            "requestID": reqid,
+            "messageType": "InputParameterListRequest"
         }
     await websocket.send(json.dumps(payload))
     json_data = await websocket.recv()
@@ -103,6 +125,21 @@ async def getvtsfolder(websocket):
     json_data = await websocket.recv()
     pack = json.loads(json_data)
     authres = pack['data']
+    return pack
+
+async def gethotkeys(websocket,mdid):
+    payload = {
+            "apiName": "VTubeStudioPublicAPI",
+            "apiVersion": v,
+            "requestID": reqid,
+            "messageType": "HotkeysInCurrentModelRequest",
+            "data": {
+                "modelID": mdid,
+            }
+        }
+    await websocket.send(json.dumps(payload))
+    json_data = await websocket.recv()
+    pack = json.loads(json_data)
     return pack
 
 async def mdch(websocket,mdid):
@@ -179,6 +216,8 @@ async def TintArtM(websocket,r,g,b,a,tintall,num,exactarray,conarray,tagexactarr
     json_data = await websocket.recv()
     pack = json.loads(json_data)
     return pack
+    
+
 
 async def spin(websocket,x,y,s):
     await mdmv(websocket,0.2,False,x,y,90,s)
