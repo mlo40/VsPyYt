@@ -16,7 +16,6 @@ from pytchat import *
 if os.path.exists('customfunc.py'):
     import customfunc
     from customfunc import *
-asyncio.get_event_loop().run_until_complete(getaserv(())
 async def main():
     uri = "ws://127.0.0.1:8001"
     async with websockets.connect(uri) as websocket:
