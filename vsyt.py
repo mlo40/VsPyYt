@@ -96,7 +96,7 @@ async def main():
         while True:
             while chat.is_alive():
                 json_file = open('token.json')
-                data = json.load(json_file)#NvtM3FneV7Q
+                data = json.load(json_file)
                 items = data.items
                 for c in chat.get().sync_items():
                     print(f"{c.datetime} [{c.author.name}]- {c.message}")
