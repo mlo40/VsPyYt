@@ -13,10 +13,10 @@ from json import *
 import pytchat
 from pytchat import *
 
-if os.path.exists('custom.py'):
+if os.path.exists('customfunc.py'):
     import customfunc
     from customfunc import *
-
+asyncio.get_event_loop().run_until_complete(getaserv(())
 async def main():
     uri = "ws://127.0.0.1:8001"
     async with websockets.connect(uri) as websocket:
@@ -50,6 +50,7 @@ async def main():
             print('Saving authtoken for Future Use...')
             with open('token.json', "w") as json_file:
                 jsonfilecon = {
+                            "chatspeed": 0.1,
                             "authenticationkey": authtoken,
                             "data":{
                                 "!spin": "spin(websocket,x,y,s)",
@@ -68,6 +69,7 @@ async def main():
         mdls = await listvtsmodel(websocket)
         runs = mdls["data"]["numberOfModels"]
         data = json.load(open('token.json'))
+        speed = data
         i=0
         for key in data["data"]:
             i+=1
@@ -98,6 +100,7 @@ async def main():
                 json_file = open('token.json')
                 data = json.load(json_file)
                 items = data.items
+                
                 for c in chat.get().sync_items():
                     print(f"{c.datetime} [{c.author.name}]- {c.message}")
                     for key in data["data"]:
@@ -109,7 +112,7 @@ async def main():
                             y = mdinf["data"]["modelPosition"]["positionY"]
                             cm = data["data"][key]
                             await eval(cm)
-                time.sleep(0.5)
+                            time.sleep(speed)
             time.sleep(0.1)
 asyncio.get_event_loop().run_until_complete(main())
 asyncio.get_event_loop().run_forever()
