@@ -68,7 +68,7 @@ async def main():
         mdls = await listvtsmodel(websocket)
         runs = mdls["data"]["numberOfModels"]
         data = json.load(open('token.json'))
-        speed = data
+        speed = data["chatspeed"]
         i=0
         for key in data["data"]:
             i+=1
