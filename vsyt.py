@@ -8,12 +8,12 @@ import os
 import func
 from func import *
 
-from json import *
+import json
 
 import pytchat
 from pytchat import *
 
-if os.path.exists('customfunc.py'):
+if os.path.exists('custom.py'):
     import customfunc
     from customfunc import *
 async def main():

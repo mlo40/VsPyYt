@@ -8,7 +8,7 @@ import os
 import func
 from func import *
 
-from json import *
+import json
 if os.path.exists('custom.py'):
     import customfunc
     from customfunc import *
