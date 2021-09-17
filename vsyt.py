@@ -5,8 +5,6 @@ import os
 import setup
 from setup import *
 bot='bots'
-loop = asyncio.get_event_loop()
-
 if os.path.exists('custom.py'):
     import customfunc
     from customfunc import *
@@ -19,12 +17,14 @@ async def main():
         input("press enter to quit program")
         quit()
     twitch = await websockets.connect('ws://irc-ws.chat.twitch.tv:80')
-    setu = await setup(websocket)
-    chat = setu[3]
-    data = setu[2]
-    cmm = setu[5]
-    channel = setu[4]
-    if (setu[0] == True):
+    cmm = await setup(websocket)
+    setus = await qa()
+    yt = setus[0]
+    ttv = setus[1]
+    data = setus[2]
+    chat = setus[3]
+    channel = setus[4]
+    if (yt == True):
         while True:
             for key in data["data"]:
                 while chat.is_alive():
@@ -39,7 +39,7 @@ async def main():
                             y = mdinf["data"]["modelPosition"]["positionY"]
                             cm = data["data"][key]
                             await eval(cm)
-    elif (setu[1] == True):
+    elif (ttv == True):
         await twitch.send('PASS oauth:'+data['authenticationkeytwitch'])
         await twitch.send('NICK '+bot)
         await twitch.send('JOIN #'+channel)

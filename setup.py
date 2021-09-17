@@ -12,11 +12,6 @@ import pytchat
 from pytchat import *
 import webbrowser
 async def setup(websocket):
-    link="https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=vpciz43dbe5tzwos67fqoyrqn618c8&redirect_uri=http://localhost&scope=chat:read+chat:edit&force_verify=true"
-    yt = False
-    ttv = False
-    chat=None
-    chnm=None
     if os.path.exists('token.json'):
         print('Loading authtoken From File...')
         with open('token.json', "r") as json_file:
@@ -63,8 +58,9 @@ async def setup(websocket):
                     "!rainbow": "rainbow(websocket)"
                 }
             config.write(configfile)
-    data = json.load(open('token.json'))
-    json_file.close()
+    with open('token.json') as json_file:
+        data = json.load(json_file)
+        json_file.close()
     ###############################
     #   command auto generation   #
     ###############################
@@ -90,7 +86,16 @@ async def setup(websocket):
     print("Detected Commands")
     for key in config['COMMANDS']:
         print(key)
-    print("type your streamid and press enter")
+    return config
+async def qa():
+    link="https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=vpciz43dbe5tzwos67fqoyrqn618c8&redirect_uri=http://localhost&scope=chat:read+chat:edit&force_verify=true"
+    yt = False
+    ttv = False
+    chat=None
+    chnm=None
+    with open('token.json') as json_file:
+        data = json.load(json_file)
+        json_file.close()
     op=input("do you want to use [1]Youtube chat, [2]Twitch chat ")
     if (op == "1"):
         yt = True
@@ -109,4 +114,4 @@ async def setup(websocket):
             json_file.close()
         ttv = True
         chnm=input("input channel name ")
-    return [yt,ttv,data,chat,chnm,config]
+    return [yt,ttv,data,chat,chnm]
