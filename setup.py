@@ -1,5 +1,6 @@
 import os
 import json
+import configparser
 
 import asyncio
 import websockets
@@ -34,17 +35,6 @@ async def setup(websocket):
                 json_file.write(json.dumps(data))
                 json_file.close()
                 print("Saving finished")
-            elif (data['authenticationkeytwitch'] == ""):
-                print('Error With Twitch Token')
-                print('Fetching New Tokens...')
-                print("click authorize, copy the token from access_token=, till the & seperator")
-                webbrowser.open(link)
-                twauthtoken = input()
-                data["authenticationkeytwitch"] = twauthtoken
-                json_file.close()
-                json_file = open('token.json', "w")
-                json_file.write(json.dumps(data))
-                json_file.close()
             else:
                 json_file.close()
     else:
@@ -52,51 +42,53 @@ async def setup(websocket):
             authtoken = await token(websocket)
             print(authtoken)
             print('Saving authtoken for Future Use...')
-            print("click authorize, copy the token from access_token=, till the & seperator")
-            webbrowser.open(link)
-            twauthtoken = input()
             with open('token.json', "w") as json_file:
                 jsonfilecon = {
                             "chatspeed": 0.1,
                             "authenticationkey": authtoken,
-                            "authenticationkeytwitch": twauthtoken,
-                            "data":{
-                                "!spin": "spin(vtubestudio,x,y,s)",
-                                "!reset": "mdmv(vtubestudio,0.2,False,0,0,0,-76)",
-                                "!rainbow": "rainbow(vtubestudio)"}
+                            "authenticationkeytwitch": ""
                         }
                 json_file.write(json.dumps(jsonfilecon))
                 json_file.close()
             await authen(websocket,authtoken)
-    
+    if os.path.exists('commands.ini'):
+        config = configparser.ConfigParser()
+        cmm = config.read('commands.ini')
+    else:
+        config = configparser.ConfigParser()
+        with open('commands.ini', "w") as configfile:
+            config['COMMANDS'] = {
+                    "!spin": "spin(websocket,x,y,s)",
+                    "!reset": "mdmv(websocket,0.2,False,0,0,0,-76)",
+                    "!rainbow": "rainbow(websocket)"
+                }
+            config.write(configfile)
     data = json.load(open('token.json'))
-    
+    json_file.close()
     ###############################
     #   command auto generation   #
     ###############################
     mdls = await listvtsmodel(websocket)
     runs = mdls["data"]["numberOfModels"]
     i=0
-    for key in data["data"]:
+    for key in config['COMMANDS']:
         i+=1
     nmumm = runs - i
     if i < nmumm:
-        for i in range(runs):
-            ff = mdls["data"]["availableModels"][i]["modelName"]
-            gg = mdls["data"]["availableModels"][i]["modelID"]
-            name = "!"+ff
-            mdss = mdch.__name__+"("+"vtubestudio"+",'"+str(gg)+"')"
-            data["data"][name] = mdss
-            json_file.close()
-            json_file = open('token.json', "w")
-            json_file.write(json.dumps(data))
-            json_file.close()
+        with open('commands.ini', "w") as configfile:
+            for i in range(runs):
+                ff = mdls["data"]["availableModels"][i]["modelName"]
+                gg = mdls["data"]["availableModels"][i]["modelID"]
+                name = "!"+ff
+                mdss = mdch.__name__+"("+"websocket"+",'"+str(gg)+"')"
+                config['COMMANDS'][name] = mdss
+            config.write(configfile)
         ###############################
         # command auto generation end #
         ###############################
     print("Successfully Loaded")
     print("Detected Commands")
-    for key in data["data"]:
+    for key in config['COMMANDS']:
         print(key)
     print("type your streamid and press enter")
     op=input("do you want to use [1]Youtube chat, [2]Twitch chat ")
@@ -105,6 +97,16 @@ async def setup(websocket):
         op=input("input streamid ")
         chat = LiveChat(video_id=op)
     elif (op == "2"):
+        if (data['authenticationkeytwitch'] == ''):
+            print("click authorize, copy the token from access_token=, till the & seperator")
+            webbrowser.open(link)
+            twauthtoken = input()
+            with open('token.json', "w") as json_file:
+                data["authenticationkeytwitch"] = twauthtoken
+                json_file.write(json.dumps(data))
+                json_file.close()
+            data = json.load(open('token.json'))
+            json_file.close()
         ttv = True
         chnm=input("input channel name ")
-    return [yt,ttv,data,chat,chnm]
+    return [yt,ttv,data,chat,chnm,config]

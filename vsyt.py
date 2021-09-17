@@ -13,15 +13,16 @@ if os.path.exists('custom.py'):
 
 async def main():
     try:
-        vtubestudio = await websockets.connect('ws://127.0.0.1:8001')
+        websocket = await websockets.connect('ws://127.0.0.1:8001')
     except:
         print("Couldn't connect to vtube studio")
         input("press enter to quit program")
         quit()
     twitch = await websockets.connect('ws://irc-ws.chat.twitch.tv:80')
-    setu = await setup(vtubestudio)
+    setu = await setup(websocket)
     chat = setu[3]
     data = setu[2]
+    cmm = setu[5]
     channel = setu[4]
     if (setu[0] == True):
         while True:
@@ -31,7 +32,7 @@ async def main():
                         p = [f"{c.datetime}", f"{c.author.name}", f"{c.message}"]
                         print(p)
                         if p[2] == key:
-                            mdinf = await getmd(vtubestudio)
+                            mdinf = await getmd(websocket)
                             s = mdinf["data"]["modelPosition"]["size"]
                             r = mdinf["data"]["modelPosition"]["rotation"]
                             x = mdinf["data"]["modelPosition"]["positionX"]
@@ -50,18 +51,18 @@ async def main():
         print(res)
         while True:
             res = await twitch.recv()#getting twitch chat is soo fucking easy
-            for key in data["data"]:
-                message_list = res.split(':')#thanks to elburz article:https://interactiveimmersive.io/blog/content-inputs/twitch-chat-in-touchdesigner/
-                user_message = message_list[-1]
-                user_name = message_list[1].split('!')[0]
-                
-                print(user_message,user_message[0:len(user_message)-2])
+            message_list = res.split(':')#thanks to elburz article:https://interactiveimmersive.io/blog/content-inputs/twitch-chat-in-touchdesigner/
+            user_message = message_list[-1]
+            user_name = message_list[1].split('!')[0]
+            print(user_message,user_message[0:len(user_message)-2])
+            for key in cmm['COMMANDS']:
                 if user_message[0:len(user_message)-2] == key:
-                    mdinf = await getmd(vtubestudio)
+                    print('executing')
+                    mdinf = await getmd(websocket)
                     s = mdinf["data"]["modelPosition"]["size"]
                     r = mdinf["data"]["modelPosition"]["rotation"]
                     x = mdinf["data"]["modelPosition"]["positionX"]
                     y = mdinf["data"]["modelPosition"]["positionY"]
-                    cm = data["data"][key]
+                    cm = cmm['COMMANDS'][key]
                     await eval(cm)
 asyncio.run(main())
