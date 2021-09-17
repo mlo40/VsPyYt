@@ -13,5 +13,4 @@ async def main():
         input("press enter to quit program")
         quit()
     await setup(websocket)
-    while True:
 asyncio.run(main())
