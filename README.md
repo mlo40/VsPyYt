@@ -1,6 +1,6 @@
 ### VsPyYt is more of a framework rather then a program.
-vsyt.py is the main program that interacts with youtube chat.<br/>
-vsnoyt.py is a example file, for testing functions.<br/>
+vsyt.py is the main program that interacts with youtube and twitch chat.<br/>
+vsnoyt.py is a testing file functions.<br/>
 example.py  is for building your own app using python.<br/>
 wiki for how to use functions [page](https://github.com/mlo40/VsPyYt/wiki)
 
