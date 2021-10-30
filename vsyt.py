@@ -50,7 +50,7 @@ async def main():
         res = await twitch.recv()
         print(res)
         while True:
-            res = await twitch.recv()#getting twitch chat is soo fucking easy
+            res = await twitch.recv()#getting twitch chat is soo fucking easy. Parsing it is hell
             message_list = res.split(':')#thanks to elburz article:https://interactiveimmersive.io/blog/content-inputs/twitch-chat-in-touchdesigner/
             user_message = message_list[-1]
             user_name = message_list[1].split('!')[0]
