@@ -1,2 +1,2 @@
-websockets
+websockets==9.1
 pytchat
