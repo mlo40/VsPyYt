@@ -17,13 +17,10 @@ async def main():
         input("press enter to quit program")
         quit()
     twitch = await websockets.connect('ws://irc-ws.chat.twitch.tv:80')
-    cmm = await setup(websocket)
-    with open('token.json') as json_file:
-        data = json.load(json_file)
-        json_file.close()
+    commandlist = await setup(websocket)
     while True:
         word = input("enter command ")
-        for key in cmm['COMMANDS']:
+        for key in commandlist['COMMANDS']:
             if word == key:
                 print('executing')
                 mdinf = await getmd(websocket)
@@ -31,6 +28,6 @@ async def main():
                 r = mdinf["data"]["modelPosition"]["rotation"]
                 x = mdinf["data"]["modelPosition"]["positionX"]
                 y = mdinf["data"]["modelPosition"]["positionY"]
-                cm = cmm['COMMANDS'][key]
+                cm = commandlist['COMMANDS'][key]
                 await eval(cm)
 asyncio.run(main())

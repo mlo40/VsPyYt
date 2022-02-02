@@ -48,7 +48,7 @@ async def setup(websocket):
             await authen(websocket,authtoken)
     if os.path.exists('commands.ini'):
         config = configparser.ConfigParser()
-        cmm = config.read('commands.ini')
+        commandlist = config.read('commands.ini')
     else:
         config = configparser.ConfigParser()
         with open('commands.ini', "w") as configfile:
@@ -87,31 +87,3 @@ async def setup(websocket):
     for key in config['COMMANDS']:
         print(key)
     return config
-async def qa():
-    link="https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=vpciz43dbe5tzwos67fqoyrqn618c8&redirect_uri=http://localhost&scope=chat:read+chat:edit&force_verify=true"
-    yt = False
-    ttv = False
-    chat=None
-    chnm=None
-    with open('token.json') as json_file:
-        data = json.load(json_file)
-        json_file.close()
-    op=input("do you want to use [1]Youtube chat, [2]Twitch chat ")
-    if (op == "1"):
-        yt = True
-        op=input("input streamid ")
-        chat = LiveChat(video_id=op)
-    elif (op == "2"):
-        if (data['authenticationkeytwitch'] == ''):
-            print("click authorize, copy the token from access_token=, till the & seperator")
-            webbrowser.open(link)
-            twauthtoken = input()
-            with open('token.json', "w") as json_file:
-                data["authenticationkeytwitch"] = twauthtoken
-                json_file.write(json.dumps(data))
-                json_file.close()
-            data = json.load(open('token.json'))
-            json_file.close()
-        ttv = True
-        chnm=input("input channel name ")
-    return [yt,ttv,data,chat,chnm]

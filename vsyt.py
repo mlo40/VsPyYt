@@ -4,10 +4,12 @@ import os
 
 import setup
 from setup import *
-bot='bots'
-if os.path.exists('custom.py'):
+
+if os.path.exists('customfunc.py'):
     import customfunc
     from customfunc import *
+
+bot='bots'
 
 async def main():
     try:
@@ -18,13 +20,36 @@ async def main():
         quit()
     twitch = await websockets.connect('ws://irc-ws.chat.twitch.tv:80')
     cmm = await setup(websocket)
-    setus = await qa()
-    yt = setus[0]
-    ttv = setus[1]
-    data = setus[2]
-    chat = setus[3]
-    channel = setus[4]
-    if (yt == True):
+    ###############################################
+    #           platform selction, setup          #
+    ###############################################
+    link="https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=vpciz43dbe5tzwos67fqoyrqn618c8&redirect_uri=http://localhost&scope=chat:read+chat:edit&force_verify=true"
+    with open('token.json') as json_file:
+        data = json.load(json_file)
+        json_file.close()
+    op=input("do you want to use [1]Youtube chat, [2]Twitch chat ")
+    if (op == "1"):
+        op=input("input streamid ")
+        chat = LiveChat(video_id=op)
+    elif (op == "2"):
+        if (data['authenticationkeytwitch'] == ''):
+            print("click authorize, copy the token from access_token=, till the & seperator")
+            webbrowser.open(link)
+            twauthtoken = input()
+            with open('token.json', "w") as json_file:
+                data["authenticationkeytwitch"] = twauthtoken
+                json_file.write(json.dumps(data))
+                json_file.close()
+            data = json.load(open('token.json'))
+            json_file.close()
+        ttv = True
+        channel=input("input channel name ")
+    
+    
+    ###############################################
+    #         Main loops for twitch and yt        #
+    ###############################################
+    if (op == "1"):
         while True:
             for key in data["data"]:
                 while chat.is_alive():
@@ -39,7 +64,7 @@ async def main():
                             y = mdinf["data"]["modelPosition"]["positionY"]
                             cm = data["data"][key]
                             await eval(cm)
-    elif (ttv == True):
+    elif (op == "2"):
         await twitch.send('PASS oauth:'+data['authenticationkeytwitch'])
         await twitch.send('NICK '+bot)
         await twitch.send('JOIN #'+channel)
