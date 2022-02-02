@@ -134,6 +134,34 @@ async def gethotkeys(websocket,mdid):
     pack = json.loads(json_data)
     return pack
 
+async def getexstate(websocket,detail):
+    payload = {
+            "apiName": "VTubeStudioPublicAPI",
+            "apiVersion": v,
+            "requestID": reqid,
+            "messageType": "ExpressionStateRequest",
+            "data": {
+                "details": detail,
+                "expressionFile": "myExpression_optional_1.exp3.json",
+            }
+        }
+    await websocket.send(json.dumps(payload))
+    json_data = await websocket.recv()
+    pack = json.loads(json_data)
+    return pack
+
+async def facecheck(websocket):
+    payload = {
+            "apiName": "VTubeStudioPublicAPI",
+            "apiVersion": v,
+            "requestID": reqid,
+            "messageType": "FaceFoundRequest"
+        }
+    await websocket.send(json.dumps(payload))
+    json_data = await websocket.recv()
+    pack = json.loads(json_data)
+    return packpack['data']['found']
+
 async def mdch(websocket,mdid):
     payload = {
             "apiName": "VTubeStudioPublicAPI",
