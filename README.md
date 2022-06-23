@@ -8,7 +8,7 @@ For people who dont want to code here is the limited auto setup version in exe f
 # [releases](https://github.com/mlo40/VsPyYt/releases)<br/>
 Note windows will say its not secure due to it not being a signed exe if you dont trust it follow the setup for the python script version.
 
-Setup
+# Setup
 1. install python [Download](https://www.python.org/ftp/python/3.10.2/python-3.10.2-amd64.exe)
 2. open cmd and write<br/> `pip install -r requirements.txt`
 3. now run vtube studio and enable plugins, make sure that the plugin server is on port 8001
