@@ -134,7 +134,7 @@ async def gethotkeys(websocket,mdid):
     pack = json.loads(json_data)
     return pack
 
-async def getexstate(websocket,detail):
+async def getexstate(websocket,expressionfile,detail):
     payload = {
             "apiName": "VTubeStudioPublicAPI",
             "apiVersion": v,
@@ -142,7 +142,7 @@ async def getexstate(websocket,detail):
             "messageType": "ExpressionStateRequest",
             "data": {
                 "details": detail,
-                "expressionFile": "myExpression_optional_1.exp3.json",
+                "expressionFile": expressionfile,
             }
         }
     await websocket.send(json.dumps(payload))
@@ -200,8 +200,8 @@ async def mdmv(websocket,time,revelance,xp,yp,rot,size):
 async def listArtM(websocket,mdid):
     payload = {
             "apiName": "VTubeStudioPublicAPI",
-            "apiVersion": "1.0",
-            "requestID": "SomeID",
+            "apiVersion": v,
+            "requestID": reqid,
             "messageType": "ArtMeshListRequest"
         }
     await websocket.send(json.dumps(payload))
