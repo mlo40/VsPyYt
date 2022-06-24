@@ -1,7 +1,6 @@
 ### VsPyYt is a chat bot.
 vsyt.py is the main program that interacts with youtube and twitch chat.<br/>
 vsnoyt.py is a testing file for functions.<br/>
-example.py is for building your own app using python.<br/>
 wiki for how to use functions [page](https://github.com/mlo40/VsPyYt/wiki)
 
 For people who dont want to code here is the limited auto setup version in exe form<br/>
