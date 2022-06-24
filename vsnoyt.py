@@ -16,7 +16,6 @@ async def main():
         print("Couldn't connect to vtube studio")
         input("press enter to quit program")
         quit()
-    twitch = await websockets.connect('ws://irc-ws.chat.twitch.tv:80')
     commandlist = await setup(websocket)
     while True:
         word = input("enter command ")

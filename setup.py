@@ -8,8 +8,6 @@ import websockets
 import func
 from func import *
 
-import pytchat
-from pytchat import *
 import webbrowser
 async def setup(websocket):
     if os.path.exists('token.json'):
