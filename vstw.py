@@ -21,7 +21,7 @@ async def main():
     ###############################################
     #           platform selction, setup          #
     ###############################################
-    link="https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=vpciz43dbe5tzwos67fqoyrqn618c8&redirect_uri=http://localhost&scope=chat:read+chat:edit&force_verify=true"
+    link="https://twitchtokengenerator.com/?scope=bits:read+chat:read+channel:read:subscriptions+channel:read:redemptions+channel:read:hype_train+channel:read:editors+user:read:blocked_users+user:read:follows+channel:read:goals+channel:read:vips&auth=auth_stay"
     with open('token.json') as json_file:
         data = json.load(json_file)
         json_file.close()
