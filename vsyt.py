@@ -21,12 +21,12 @@ async def main():
     #         Main loops for yt                   #
     ###############################################
     op=input("input streamid ")
-    chat = LiveChat(video_id=op)
+    chat = pytchat.create(video_id=op)
     while True:
         while chat.is_alive():
             for c in chat.get().sync_items():
                 print(f"{c.datetime} [{c.author.name}]- {c.message}")
-                for key in data["data"]:
+                for key in cmm['COMMANDS']:
                     if f"{c.message}" == key:
                         mdinf = await getmd(websocket)
                         s = mdinf["data"]["modelPosition"]["size"]
