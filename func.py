@@ -209,6 +209,173 @@ async def listArtM(websocket,mdid):
     pack = json.loads(json_data)
     return pack
 
+async def ExHotkey(websocket,hid,IID):
+    payload = {
+            "apiName": "VTubeStudioPublicAPI",
+            "apiVersion": v,
+            "requestID": reqid,
+            "messageType": "HotkeyTriggerRequest",
+            "data": {
+                "hotkeyID": hid,
+                "itemInstanceID": IID
+        }
+    }
+    await websocket.send(json.dumps(payload))
+    json_data = await websocket.recv()
+    pack = json.loads(json_data)
+    return pack
+    
+async def ExpresState(websocket,exf,state):
+    payload = {
+            "apiName": "VTubeStudioPublicAPI",
+            "apiVersion": v,
+            "requestID": reqid,
+            "messageType": "ExpressionActivationRequest",
+            "data": {
+                "expressionFile": exf,
+                "active": state
+        }
+    }
+    await websocket.send(json.dumps(payload))
+    json_data = await websocket.recv()
+    pack = json.loads(json_data)
+    return pack
+    
+async def getloc(websocket):
+    payload = {
+            "apiName": "VTubeStudioPublicAPI",
+            "apiVersion": v,
+            "requestID": reqid,
+            "messageType": "SceneColorOverlayInfoRequest"
+    }
+    await websocket.send(json.dumps(payload))
+    json_data = await websocket.recv()
+    pack = json.loads(json_data)
+    return pack
+    
+async def AskMeshSelect(websocket,to,ho,ram,aama):
+    payload = {
+            "apiName": "VTubeStudioPublicAPI",
+            "apiVersion": v,
+            "requestID": reqid,
+            "messageType": "ArtMeshSelectionRequest",
+            "data": {
+                "textOverride": to,
+                "helpOverride": ho,
+                "requestedArtMeshCount": ram,
+                "activeArtMeshes": aama
+        }
+    }
+    await websocket.send(json.dumps(payload))
+    json_data = await websocket.recv()
+    pack = json.loads(json_data)
+    return pack
+    
+async def getitem(websocket,IAS,IIIS,IIAIF,OIFN,OIIID):
+    payload = {
+        "apiName": "VTubeStudioPublicAPI",
+        "apiVersion": v,
+        "requestID": reqid,
+        "messageType": "ItemListRequest",
+        "data": {
+            "includeAvailableSpots": IAS,
+            "includeItemInstancesInScene": IIIS,
+            "includeAvailableItemFiles": IIAIF,
+            "onlyItemsWithFileName": OIFN,
+            "onlyItemsWithInstanceID": OIIID
+        }
+    }
+    await websocket.send(json.dumps(payload))
+    json_data = await websocket.recv()
+    pack = json.loads(json_data)
+    return pack
+    
+async def mvitem(websocket,BOFA):
+    payload = {
+            "apiName": "VTubeStudioPublicAPI",
+            "apiVersion": v,
+            "requestID": reqid,
+            "messageType": "ItemMoveRequest",
+            "data": {
+                "itemsToMove": BOFA
+        }
+    }
+    await websocket.send(json.dumps(payload))
+    json_data = await websocket.recv()
+    pack = json.loads(json_data)
+    return pack
+    
+async def conitem(websocket,IID,FPS,FC,BR,ALPH,FS,ASFA,SAPS,APS):
+    payload = {
+            "apiName": "VTubeStudioPublicAPI",
+            "apiVersion": v,
+            "requestID": reqid,
+            "messageType": "ItemAnimationControlRequest",
+            "data": {
+                "itemInstanceID": IID,
+                "framerate": FPS,
+                "frame": FC,
+                "brightness": BR,
+                "opacity": ALPH,
+                "setAutoStopFrames": FS,
+                "autoStopFrames": ASFA,
+                "setAnimationPlayState": SAPS,
+                "animationPlayState": APS
+        }
+    }
+    await websocket.send(json.dumps(payload))
+    json_data = await websocket.recv()
+    pack = json.loads(json_data)
+    return pack
+    
+async def rmitem(websocket,LSOAIS,LSOPI,KP,AOIID,AOFN):
+    payload = {
+            "apiName": "VTubeStudioPublicAPI",
+            "apiVersion": v,
+            "requestID": reqid,
+            "messageType": "ItemUnloadRequest",
+                "data": {
+                "unloadAllInScene": LSOAIS,
+                "unloadAllLoadedByThisPlugin": LSOPI,
+                "allowUnloadingItemsLoadedByUserOrOtherPlugins": KP,
+                "instanceIDs": AOIID,
+                "fileNames": AOFN
+        }
+    }
+    await websocket.send(json.dumps(payload))
+    json_data = await websocket.recv()
+    pack = json.loads(json_data)
+    return pack
+    
+async def loaditem(websocket,FN,X,Y,S,R,FT,O,SAOT,SS,SOS,SF,SL,SAU):
+    payload = {
+            "apiName": "VTubeStudioPublicAPI",
+            "apiVersion": v,
+            "requestID": reqid,
+            "messageType": "ItemLoadRequest",
+            "data": {
+                "fileName": FN,
+                "positionX": X,
+                "positionY": Y,
+                "size": S,
+                "rotation": R,
+                "fadeTime": FT,
+                "order": O,
+                "failIfOrderTaken": SAOT,
+                "smoothing": SS,
+                "censored": SOS,
+                "flipped": SF,
+                "locked": SL,
+                "unloadWhenPluginDisconnects": SAU
+        }
+    }
+    await websocket.send(json.dumps(payload))
+    json_data = await websocket.recv()
+    pack = json.loads(json_data)
+    return pack
+    
+    
+
 async def TintArtM(websocket,r,g,b,a,tintall,num,exactarray,conarray,tagexactarray,tagconarray):
     payload = {
             "apiName": "VTubeStudioPublicAPI",
