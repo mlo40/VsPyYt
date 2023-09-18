@@ -1,4 +1,5 @@
-this project is now archived/abandoned, use Genteki's <br/>
+This project is now archived/abandoned.<br/>
+Use Genteki's pyvts<br/>
 https://github.com/Genteki/pyvts <br/>
 
 its alot better :P
