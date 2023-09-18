@@ -1,3 +1,8 @@
+this project is now archived/abandoned, use Genteki's <br/>
+https://github.com/Genteki/pyvts <br/>
+
+its alot better :P
+
 ### VsPyYt is a chat bot.
 vsyt.py is the main program that interacts with youtube and twitch chat.<br/>
 vsnoyt.py is a testing file for functions.<br/>
